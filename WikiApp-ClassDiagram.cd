@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WikiApp_v2.WikiApp">
+    <Position X="2.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>QAEAAAAAADBEEkAQKAjEBgAmEAIDAAAAIACqJAAAACI=</HashCode>
+      <FileName>FormWikiApp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WikiApp_v2.Program">
+    <Position X="8.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WikiApp_v2.Information" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAIDAQAAAAAAAQEAAAAgABAAAAAQAAIDIA=</HashCode>
+      <FileName>Information.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WikiApp_v2.Properties.Resources">
+    <Position X="8.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WikiApp_v2.Properties.Settings">
+    <Position X="8.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
