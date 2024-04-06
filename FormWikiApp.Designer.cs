@@ -50,6 +50,7 @@
             this.groupBoxStructure = new System.Windows.Forms.GroupBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonReset = new System.Windows.Forms.Button();
             this.groupBoxStructure.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -96,7 +97,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(272, 26);
             this.textBoxName.TabIndex = 2;
-            this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
+            this.textBoxName.DoubleClick += new System.EventHandler(this.textBoxName_DoubleClick);
             // 
             // textBoxDefinition
             // 
@@ -216,13 +217,6 @@
             // comboBoxCategory
             // 
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Items.AddRange(new object[] {
-            "Abstract",
-            "Array",
-            "Graphs",
-            "Hash",
-            "List",
-            "Tree"});
             this.comboBoxCategory.Location = new System.Drawing.Point(39, 168);
             this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxCategory.Name = "comboBoxCategory";
@@ -284,11 +278,22 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(179, 25);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(384, 522);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(134, 60);
+            this.buttonReset.TabIndex = 22;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
             // WikiApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 714);
+            this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.groupBoxStructure);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.comboBoxCategory);
@@ -309,6 +314,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "WikiApp";
             this.Text = "Wiki Application V2";
+            this.Load += new System.EventHandler(this.WikiApp_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WikiApp_FormClosing);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -342,6 +349,7 @@
         private System.Windows.Forms.ColumnHeader WikiName;
         private System.Windows.Forms.ColumnHeader WikiCategory;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button buttonReset;
     }
 }
 

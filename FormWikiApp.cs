@@ -10,11 +10,11 @@ namespace WikiApp_v2
     {
         public WikiApp()
         {
-            InitializeComponent();
-            toolStripStatusLabel1.Text = "";
+            InitializeComponent();          
         }
 
         List<Information> Wiki = new List<Information>();
+        string ReadFileName = "";
 
         private void buttonAdd_Click(object sender, System.EventArgs e)
         {
@@ -45,6 +45,7 @@ namespace WikiApp_v2
             else
             {
                 toolStripStatusLabel1.Text = "Input Name is invalid. Input Name already exist in the list...";
+                MessageBox.Show("Input Name is invalid. Input Name already exist in the list...");
             }
         }
 
@@ -197,6 +198,7 @@ namespace WikiApp_v2
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 OpenRecords(openFileDialog.FileName);
+                ReadFileName = openFileDialog.FileName;
 
                 DisplayWikiInformation();
             }
@@ -282,9 +284,33 @@ namespace WikiApp_v2
             textBoxDefinition.Text = Wiki[selectedItem].GetDefinition();
         }
 
-        private void buttonExit_Click(object sender, System.EventArgs e)
+        
+
+        // Open and read the wiki category data for combo box
+        private void LoadCategory()
         {
-            Environment.Exit(0);
+            string fileName = "WikiCategory.txt";
+
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    using (TextReader reader = new StreamReader(fileName))
+                    {
+                        Wiki.Clear();
+
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            comboBoxCategory.Items.Add(line);
+                        }
+                    }                   
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show("Error: " + exp.Message);
+            }
         }
 
         private void DisplayArray()
@@ -307,9 +333,49 @@ namespace WikiApp_v2
 
         }
 
-        private void textBoxName_TextChanged(object sender, EventArgs e)
+        private void textBoxName_DoubleClick(object sender, EventArgs e)
         {
+            ClearAllTextBoxes();
+        }
 
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            ClearAllTextBoxes();
+        }
+
+        private void WikiApp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ReadFileName.Length > 0)
+            {
+                SaveRecords(ReadFileName);
+
+                MessageBox.Show("Saved Wiki data to the file - " + ReadFileName);
+            }
+            else
+            {
+                MessageBox.Show("Exiting without saving the Wiki data into file...");
+            }
+        }
+
+        private void WikiApp_Load(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+            LoadCategory();
+        }
+
+        private void buttonExit_Click(object sender, System.EventArgs e)
+        {
+            if (ReadFileName.Length > 0)
+            {
+                SaveRecords(ReadFileName);
+
+                MessageBox.Show("Saved Wiki data to the file - " + ReadFileName);
+            }
+            else
+            {
+                MessageBox.Show("Exiting without saving the Wiki data into file...");
+            }
+            Environment.Exit(0);
         }
 
     }
