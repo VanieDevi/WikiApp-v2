@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Xml.Linq;
 
 namespace WikiApp_v2
 {
@@ -55,7 +57,8 @@ namespace WikiApp_v2
 
         public void SetName(string inName)
         {
-            Name=inName;
+            TextInfo nameTI = new CultureInfo("en-US", false).TextInfo;
+            Name = nameTI.ToTitleCase(inName);
         }
 
         public void SetCategory(string inCategory)
