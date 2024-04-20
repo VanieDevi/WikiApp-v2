@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -26,18 +27,38 @@ namespace WikiApp_v2
         // Create and Initialize a wiki list
         List<Information> Wiki = new List<Information>();
         string ReadFileName = "";
-        
+
         // A method for checking duplicatesusing " Exists" method.
         private bool validName(string wikiName)
+        // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.trace?view=net-6.0
         {
-            if (Wiki.Exists(dup => dup.GetName() == wikiName))
+
+            StreamWriter stream = File.AppendText("Trace_6.5.txt");
+            TextWriterTraceListener writerTraceListener1 = new TextWriterTraceListener(stream);
+            Trace.Listeners.Add(writerTraceListener1);
+            Trace.AutoFlush = true;
+            Trace.Indent();
+
+            Trace.WriteLine("-----------------------------------------------------------------------");
+            Trace.WriteLine("Entering ValidName function...");
+            Trace.WriteLine("Validating the input name = " + wikiName);
+
+            if (Wiki.Exists(dup => dup.GetName().ToLower() == wikiName.ToLower()))
             {
-                Trace.TraceWarning("Invalid Name - Name is duplicate...");
+                Trace.WriteLine("Invalid Name - Name is duplicate");
+
+                Trace.Flush();
+                stream.Close();
+                Trace.Unindent();
                 return false;
             }
             else
             {
-                Trace.TraceInformation("Valid Name");
+                Trace.WriteLine("Valid Name");
+
+                Trace.Flush();
+                stream.Close();
+                Trace.Unindent();
                 return true;
             }
         }
@@ -85,12 +106,8 @@ namespace WikiApp_v2
         // Loading data from the binaryfile when the application loads..
         private void WikiApp_Load(object sender, EventArgs e)
         {
-            string datFile = "wiki-data.dat";
-            ReadFileName = datFile;
             toolStripStatusLabel1.Text = "";
             LoadCategory();
-            OpenRecords(datFile);
-            DisplayWikiInformation();
         }
 
         // Open and read the wiki category data for combo box
@@ -239,42 +256,80 @@ namespace WikiApp_v2
         {
             toolStripStatusLabel1.Text = "Editing the selected Wiki record......";
 
+            StreamWriter stream = File.AppendText("Trace_6.7.txt");
+            TextWriterTraceListener writerTraceListener2 = new TextWriterTraceListener(stream);
+            Trace.Listeners.Add(writerTraceListener2);
+            Trace.AutoFlush = true;
+
+            Trace.WriteLine("....................................................................");
+            Trace.WriteLine("Entering Edit function...");
+
             int selectedItem = listViewWikiApp.SelectedIndices[0];
             
             if (selectedItem > -1)
             {
-                Trace.TraceInformation("Record found for edit...");
-                 // The edited data is updated in the records.
-                Wiki[selectedItem].SetName(textBoxName.Text);
-                Wiki[selectedItem].SetCategory(comboBoxCategory.Text);
-                Wiki[selectedItem].SetStructure(GetRadioButton());
-                Wiki[selectedItem].SetDefinition(textBoxDefinition.Text);
+                Trace.WriteLine("Updating the selected record...");
 
-                DisplayWikiInformation();
-                ClearAllTextBoxes();
- 
-                MessageBox.Show("Recorded successfully updated...");
+                // check name in TextBox
+                bool valid = validName(textBoxName.Text);
 
-                toolStripStatusLabel1.Text = "";
+                // If name is Not a duplicate
+                if (valid)
+                {
+
+                    // The edited data is updated in the records.
+                    Wiki[selectedItem].SetName(textBoxName.Text);
+                    Wiki[selectedItem].SetCategory(comboBoxCategory.Text);
+                    Wiki[selectedItem].SetStructure(GetRadioButton());
+                    Wiki[selectedItem].SetDefinition(textBoxDefinition.Text);
+
+                    DisplayWikiInformation();
+                    ClearAllTextBoxes();
+
+                    Trace.WriteLine("Updated the selected record...");
+
+                    MessageBox.Show("Recorded successfully updated...");
+
+                    toolStripStatusLabel1.Text = "";
+                }
+                else
+                {
+                    Trace.WriteLine("Input Name is invalid. Input Name already exist in the list...");
+                    toolStripStatusLabel1.Text = "Input Name is invalid. Input Name already exist in the list...";
+                    MessageBox.Show("Input Name is invalid. Input Name already exist in the list...");
+                }
             }
             else
             {
-                Trace.TraceWarning("Record not found for edit...");
+                Trace.WriteLine("Record not found for edit...");
             }
+
+            Trace.Flush();
+            stream.Close();
         }
         
         // Delete Button
         private void buttonDelete_Click(object sender, System.EventArgs e)
-        {           
+        {
+            StreamWriter stream = File.AppendText("Trace_6.8.txt");
+            TextWriterTraceListener writerTraceListener3 = new TextWriterTraceListener(stream);
+            Trace.Listeners.Add(writerTraceListener3);
+            Trace.AutoFlush = true;
+
+            Trace.WriteLine("....................................................................");
+            Trace.WriteLine("Entering Delete function...");
+
             var result = MessageBox.Show("Confirm to delete the record!", "Delete Record!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             
             if (result == DialogResult.OK)
             {
+                
+
                 int selectedItem = listViewWikiApp.SelectedIndices[0];
                
                 if (selectedItem > -1)
                 {
-                    Trace.TraceInformation("Record found for delete...");
+                    Trace.WriteLine("Deleting the selected record...");
 
                     toolStripStatusLabel1.Text = "Deleting the selected Wiki record......";
                     // Removes the selected record from the Wiki list
@@ -283,15 +338,23 @@ namespace WikiApp_v2
                     DisplayWikiInformation();
                     ClearAllTextBoxes();
 
+                    Trace.WriteLine("Successfully Deleted the selected record...");
                     MessageBox.Show("Recorded successfully deleted...");
 
                     toolStripStatusLabel1.Text = "";
                 }
                 else
                 {
-                    Trace.TraceWarning("Record not found for delete...");
+                    Trace.WriteLine("Record not found for delete...");
                 }
-            }           
+            }
+            else
+            {
+                Trace.WriteLine("Delete Record confirmation cancelled.. ");
+            }
+
+            Trace.Flush();
+            stream.Close();
         }
 
         #endregion        
@@ -422,11 +485,5 @@ namespace WikiApp_v2
         {
             this.Close();
         }
-
-        
-        
-
-        
-
     }
 }
